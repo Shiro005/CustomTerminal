@@ -41,17 +41,17 @@ const TerminalDisplay = () => {
             <div className='bg-gray-900 p-4 rounded-2xl flex flex-row items-center justify-between'>
                 <div className='flex flex-row items-center'>
                     {colorTerminal.map((color, index) => (
-                        <div key={index} className='h-4 w-4 rounded-3xl mx-2' style={{ background: color }}></div>
+                        <div key={index} className='h-3 w-3 rounded-3xl mx-1' style={{ background: color }}></div>
                     ))}
                 </div>
-                <div className='font-bold text-gray-300 px-4 text-xl'>
+                <div className='font-bold text-gray-300 px-4 text-sm'>
                     <h2>WebReich Terminal</h2>
                 </div>
             </div>
             <div className='p-4 h-full overflow-y-auto'>
-                <h3 className='text-gray-500 font-semibold pb-3 text-xl'>To see all command type help</h3>
+                <h3 className='text-gray-500 font-semibold pb-3 text-sm'>To see all command type help</h3>
                 {output.map((line, index) => (
-                    <div key={index} className='text-green-500 text-xl font-mono'>
+                    <div key={index} className='text-green-500 text-sm font-mono'>
                         {line}
                     </div>
                 ))}
@@ -59,7 +59,7 @@ const TerminalDisplay = () => {
                     <span className='text-red-500 text-xl font-mono'>$ </span>
                     <input
                         type="text"
-                        className="bg-gray-800 text-red-500 border-none outline-none text-xl font-mono flex-grow "
+                        className="bg-gray-800 text-red-500 border-none outline-none text-sm font-mono flex-grow "
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={handleKeyDown}
