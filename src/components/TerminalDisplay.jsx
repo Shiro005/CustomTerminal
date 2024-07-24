@@ -1,5 +1,7 @@
+// src/components/TerminalDisplay.js
 import React, { useState, useEffect, useRef } from 'react';
-import '../components/TerminalDisplay.css'
+import '../components/TerminalDisplay.css';
+import { commands } from '../commands';
 
 const TerminalDisplay = () => {
     const [inputValue, setInputValue] = useState('');
@@ -8,35 +10,27 @@ const TerminalDisplay = () => {
 
     const colorTerminal = ['red', 'yellow', 'green'];
 
-    const handleKeyDown = (event) => {
+    const handleKeyDown = async (event) => {
         if (event.key === 'Enter') {
-            processCommand(inputValue);
+            await processCommand(inputValue);
             setInputValue('');
         }
     };
 
-    const processCommand = (command) => {
-        const newOutput = [...output, { type: 'command', text: `$ ${command}` }];
-        switch (command.toLowerCase()) {
-            case 'help':
-                newOutput.push(
-                    { type: 'output', text: "Currently this app is under development so stay tuned! More commands will be activated soon. For more details, check out ", link: "https://shriyash.vercel.app" },
-                    { type: 'output', text: "this is another line" }
-                );
-                break;
-            case 'portfolio':
-                newOutput.push(
-                    { type: 'output', text: "This is my portfolio link ", link: "https://shriyash.vercel.app" }
-                );
-                break;
-            case 'clear':
-                setOutput([]);
-                return;
-            default:
-                newOutput.push({ type: 'output', text: `command not found: ${command}` });
-                break;
+    const processCommand = async (commandInput) => {
+        const [command, ...args] = commandInput.split(' ');
+        const commandFunction = commands[command.toLowerCase()] || commands.default;
+
+        let newOutput = [...output, { type: 'command', text: `$ ${commandInput}` }];
+        if (commandFunction) {
+            if (command.toLowerCase() === 'clear') {
+                commandFunction(setOutput);
+            } else {
+                const commandOutput = await commandFunction(args.join(' '));
+                newOutput = [...newOutput, ...commandOutput];
+                setOutput(newOutput);
+            }
         }
-        setOutput(newOutput);
     };
 
     useEffect(() => {
@@ -55,19 +49,19 @@ const TerminalDisplay = () => {
                         ></div>
                     ))}
                 </div>
-                <div className='font-bold text-blue-400 px-4 text-sm'>
-                    <h2>WebReich Terminal</h2>
+                <div className='text-blue-400 px-4 font-bold customStyle-font-cursive'>
+                    <h1>Terminal</h1>
                 </div>
             </div>
             <div className='p-4 flex-grow overflow-y-auto'>
-                <h3 className='text-gray-500 font-semibold pb-3 text-sm'>To see all commands, type help</h3>
+                <h3 className='text-gray-500 font-semibold pb-3 text-md custom-font-style'>To see all commands, type help</h3>
                 {output.map((line, index) => (
-                    <div key={index} className='text-slate-200 text-sm font-mono'>
+                    <div key={index} className='text-slate-200 text-md font-mono custom-font-style'>
                         {line.type === 'command' ? (
-                            <span className='font-bold text-lg'>{line.text}</span>
+                            <span className='text-md custom-font-style text-blue-400'>{line.text}</span>
                         ) : (
                             <span>
-                                {line.text} {line.link && <a href={line.link} target='_blank' rel='noopener noreferrer' className='text-blue-400 underline'>{line.link}</a>}
+                                {line.text} {line.link && <a href={line.link} target='_blank' rel='noopener noreferrer' className='text-blue-400 underline custom-font-style text-sm'>{line.link}</a>}
                             </span>
                         )}
                         <br />
@@ -75,10 +69,10 @@ const TerminalDisplay = () => {
                 ))}
                 <div ref={outputEndRef}></div>
                 <div className='flex'>
-                    <span className='text-yellow-500 text-xl font-mono'>~ </span>
+                    <span className='text-blue-400 text-md font-mono'>~ </span>
                     <input
                         type="text"
-                        className="bg-gray-800 text-red-400 border-none outline-none text-sm font-mono flex-grow"
+                        className="bg-gray-800 text-blue-400 border-none outline-none text-md flex-grow custom-font-style "
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={handleKeyDown}

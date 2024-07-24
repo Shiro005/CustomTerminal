@@ -1,9 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
+
 @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.custom-font-style {
+    font-family: "Silkscreen", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .animate-blink {
     animation: blink 1s infinite;
+}
+
+.customStyle-font-cursive {
+    font-family: "Honk", system-ui;
+    font-weight: 400;
+    font-size: 2rem;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
 }
